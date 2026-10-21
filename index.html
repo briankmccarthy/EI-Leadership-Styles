@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build Your EI Matrix</title>
+<meta name="description" content="Map Goleman's 12 emotional-intelligence competencies to the 6 leadership styles. Place a signature star or supporting triangle in each cell.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* base reset */
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  img, svg { max-width: 100%; }
+  [hidden] { display: none !important; }
+
+  /* Layout: a blank reference grid students fill in themselves — competencies down the rows,
+     six styles across; tap a cell to cycle blank → signature star → supporting triangle. */
+  :root {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg: #f6f4ef;
+    --surface: #fffdf9;
+    --ink: #221f1a;
+    --ink-soft: #6a6459;
+    --col-head: #000000;
+    --line: #b5ac99;
+    --line-strong: #8f8571;
+    --accent: #c0362c;        /* red — signature star */
+    --support: #1f3a6b;       /* navy — supporting triangle */
+    --accent-wash: #f3dcd9;
+    --domain-1: #0d8b9c;      /* self-awareness — teal */
+    --domain-2: #d4881f;      /* self-management — amber */
+    --domain-3: #7b3fb5;      /* social awareness — purple */
+    --domain-4: #5a9e2f;      /* relationship management — green */
+    --shadow: 0 1px 2px rgba(40,34,24,.06), 0 8px 24px rgba(40,34,24,.05);
+    --f-display: "Spectral", Georgia, "Times New Roman", serif;
+    --f-body: "Inter", system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1a1815;
+      --surface: #232019;
+      --ink: #ece7dd;
+      --ink-soft: #9b9385;
+      --col-head: #f4efe6;
+      --line: #4f4839;
+      --line-strong: #6b6251;
+      --accent: #e5695f;
+      --support: #6f93cf;
+      --accent-wash: #3a1f1c;
+      --domain-1: #2dc4d8;
+      --domain-2: #e6a93a;
+      --domain-3: #b588e8;
+      --domain-4: #8fd055;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1a1815;
+    --surface: #232019;
+    --ink: #ece7dd;
+    --ink-soft: #9b9385;
+    --col-head: #f4efe6;
+    --line: #4f4839;
+    --line-strong: #6b6251;
+    --accent: #e5695f;
+    --support: #6f93cf;
+    --accent-wash: #3a1f1c;
+    --domain-1: #2dc4d8;
+    --domain-2: #e6a93a;
+    --domain-3: #b588e8;
+    --domain-4: #8fd055;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--f-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: clamp(24px, 5vw, 56px);
+  }
+
+  header { margin-bottom: 24px; }
+  .eyebrow {
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    text-wrap: balance;
+    margin: 0 0 12px;
+  }
+  .lede {
+    max-width: 64ch;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+    margin: 0;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    margin: 24px 0 18px;
+    padding-block: 14px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .howto {
+    margin-top: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .howto h2 {
+    font-family: var(--f-body);
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .howto ol {
+    margin: 0;
+    padding-left: 1.3em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: .95rem;
+    color: var(--ink);
+  }
+  .howto ol li { padding-left: 2px; }
+  .howto .ig { font-weight: 700; line-height: 1; }
+  .howto .ig.sig { color: var(--accent); }
+  .howto .ig.sup { color: var(--support); }
+
+  .pick-label {
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .toolpick {
+    display: inline-flex;
+    background: var(--accent-wash);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .toolpick button {
+    font-family: var(--f-body);
+    font-size: .9rem;
+    font-weight: 600;
+    border: 0;
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .18s, color .18s;
+  }
+  .toolpick button[aria-pressed="true"] {
+    background: var(--surface);
+    box-shadow: 0 1px 3px rgba(40,34,24,.18);
+  }
+  .toolpick button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toolpick .g { line-height: 1; }
+  #tool-sig .g { color: var(--accent); font-size: 1.2rem; }
+  #tool-sup .g { color: var(--support); font-size: 1.05rem; }
+  #tool-sig[aria-pressed="true"] { color: var(--accent); }
+  #tool-sup[aria-pressed="true"] { color: var(--support); }
+
+  .spacer { flex: 1 1 auto; }
+  .btn {
+    font-family: var(--f-body);
+    font-size: .84rem;
+    font-weight: 600;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .btn:hover { background: var(--accent-wash); border-color: var(--accent); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn.armed {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-wash);
+  }
+
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 760px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  caption {
+    caption-side: bottom;
+    text-align: left;
+    color: var(--ink-soft);
+    font-size: .82rem;
+    padding: 12px 4px 0;
+  }
+  th, td {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 0;
+    text-align: center;
+  }
+  thead th {
+    background: var(--surface);
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    vertical-align: bottom;
+    padding: 14px 8px;
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--col-head);
+    border-bottom: 2px solid var(--line-strong);
+  }
+  thead th .sub {
+    display: block;
+    font-family: var(--f-body);
+    font-weight: 500;
+    font-size: .68rem;
+    color: var(--col-head);
+    margin-top: 4px;
+    letter-spacing: .01em;
+  }
+  thead th:first-child {
+    text-align: left;
+    padding-left: 11px;
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--col-head);
+    font-family: var(--f-body);
+  }
+  tbody th {
+    text-align: left;
+    font-weight: 700;
+    font-size: .95rem;
+    line-height: 1.2;
+    padding: 9px 8px 9px 11px;
+    border-right: 2px solid var(--line-strong);
+    white-space: nowrap;
+    position: relative;
+  }
+  tbody th .dom,
+  tbody th::after {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 4px;
+  }
+  tbody th .dom { left: 0; }
+  tbody th::after { content: ""; right: 0; }
+  .d1 .dom, .d1 th::after { background: var(--domain-1); }
+  .d2 .dom, .d2 th::after { background: var(--domain-2); }
+  .d3 .dom, .d3 th::after { background: var(--domain-3); }
+  .d4 .dom, .d4 th::after { background: var(--domain-4); }
+
+  tbody td { padding: 0; }
+  .cell-btn {
+    width: 100%;
+    height: 46px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 1.45rem;
+    line-height: 1;
+    color: var(--ink);
+    transition: background .14s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cell-btn:hover { background: var(--accent-wash); }
+  .cell-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+  .cell-btn[data-state="1"] { color: var(--accent); }
+  .cell-btn[data-state="2"] { color: var(--support); font-size: 1.25rem; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  thead th:last-child, tbody td:last-child { border-right: 0; }
+
+  .domains-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 22px;
+    font-size: .8rem;
+    color: var(--ink-soft);
+  }
+  .domains-key span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .s1 { background: var(--domain-1); }
+  .s2 { background: var(--domain-2); }
+  .s3 { background: var(--domain-3); }
+  .s4 { background: var(--domain-4); }
+
+  .saved-note {
+    margin-top: 16px;
+    font-size: .8rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cell-btn, .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Goleman · Emotional Intelligence &amp; Leadership</p>
+    <h1>Build Your EI Matrix</h1>
+    <p class="lede">For each leadership style, decide which emotional-intelligence competencies drive it. A <strong>signature star</strong> marks the competencies that are the engine of a style; a <strong>supporting triangle</strong> marks those that deepen or temper it. There's no answer key — this is your argument to make and defend.</p>
+
+    <div class="howto">
+      <h2>How to use this tool</h2>
+      <ol>
+        <li>Under <strong>Place a competency</strong>, choose <span class="ig sig">★</span> <strong>Signature</strong> or <span class="ig sup">▲</span> <strong>Supporting</strong>.</li>
+        <li>Tap any cell to place that mark where the competency fits the leadership style.</li>
+        <li>Tap a marked cell with the same tool selected to remove it, or use <strong>Clear all</strong> to start over.</li>
+        <li>Your work saves automatically in this browser, so you can close the tab and come back to it.</li>
+      </ol>
+    </div>
+  </header>
+
+  <div class="controls">
+    <span class="pick-label">Place a competency</span>
+    <div class="toolpick" role="group" aria-label="Choose which mark to place">
+      <button id="tool-sig" type="button" aria-pressed="true"><span class="g" aria-hidden="true">★</span> Signature</button>
+      <button id="tool-sup" type="button" aria-pressed="false"><span class="g" aria-hidden="true">▲</span> Supporting</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="btn" id="clear" type="button">Clear all</button>
+  </div>
+
+  <div class="scroll">
+    <table id="grid">
+      <caption>Pick Signature or Supporting above, then tap cells to place that mark. Tap a marked cell with the same tool to clear it. Your work saves automatically in this browser.</caption>
+      <thead>
+        <tr>
+          <th scope="col">EI Competency</th>
+          <th scope="col">Visionary<span class="sub">shared dream</span></th>
+          <th scope="col">Coaching<span class="sub">develop people</span></th>
+          <th scope="col">Affiliative<span class="sub">recognition &amp; morale</span></th>
+          <th scope="col">Democratic<span class="sub">participation</span></th>
+          <th scope="col">Pacesetting<span class="sub">high standards</span></th>
+          <th scope="col">Commanding<span class="sub">firm control</span></th>
+        </tr>
+      </thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+
+  <div class="domains-key" aria-label="Competency domains">
+    <span><span class="swatch s1"></span> Self-Awareness</span>
+    <span><span class="swatch s2"></span> Self-Management</span>
+    <span><span class="swatch s3"></span> Social Awareness</span>
+    <span><span class="swatch s4"></span> Relationship Management</span>
+  </div>
+
+  <p class="saved-note" id="note">Your work saves automatically in this browser.</p>
+</div>
+
+<script>
+  // domain: 1 self-awareness, 2 self-management, 3 social awareness, 4 relationship management
+  const competencies = [
+    { name: "Emotional self-awareness", domain: 1 },
+    { name: "Emotional self-control", domain: 2 },
+    { name: "Adaptability", domain: 2 },
+    { name: "Achievement orientation", domain: 2 },
+    { name: "Positive outlook", domain: 2 },
+    { name: "Empathy", domain: 3 },
+    { name: "Organizational awareness", domain: 3 },
+    { name: "Influence", domain: 4 },
+    { name: "Coach & mentor", domain: 4 },
+    { name: "Conflict management", domain: 4 },
+    { name: "Teamwork", domain: 4 },
+    { name: "Inspirational leadership", domain: 4 },
+  ];
+  const styles = ["Visionary","Coaching","Affiliative","Democratic","Pacesetting","Commanding"];
+  const GLYPH = { 0: "", 1: "★", 2: "▲" };
+  const STATE_LABEL = { 0: "blank", 1: "signature", 2: "supporting" };
+  const KEY = "ei-matrix-builder-v1";
+
+  // load any saved work
+  let saved = {};
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) saved = JSON.parse(raw) || {};
+  } catch (e) { saved = {}; }
+
+  function persist() {
+    try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+  }
+
+  // which mark the student is currently placing: 1 = signature star, 2 = supporting triangle
+  let activeMark = 1;
+  const toolSig = document.getElementById("tool-sig");
+  const toolSup = document.getElementById("tool-sup");
+  function setTool(m) {
+    activeMark = m;
+    toolSig.setAttribute("aria-pressed", String(m === 1));
+    toolSup.setAttribute("aria-pressed", String(m === 2));
+  }
+  toolSig.addEventListener("click", () => setTool(1));
+  toolSup.addEventListener("click", () => setTool(2));
+
+  const body = document.getElementById("body");
+  const cells = {};          // id -> { btn, comp, style }
+
+  competencies.forEach((c, r) => {
+    const tr = document.createElement("tr");
+    tr.className = "d" + c.domain;
+    const th = document.createElement("th");
+    th.scope = "row";
+    th.innerHTML = '<span class="dom" aria-hidden="true"></span>' + c.name;
+    tr.appendChild(th);
+
+    styles.forEach((style, i) => {
+      const td = document.createElement("td");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cell-btn";
+      const id = r + "-" + i;
+      cells[id] = { btn: btn, comp: c.name, style: style };
+      renderCell(id, Number(saved[id]) || 0);
+      btn.addEventListener("click", () => {
+        // place the active mark, or clear it if the cell already holds that same mark
+        const cur = Number(btn.dataset.state);
+        const next = cur === activeMark ? 0 : activeMark;
+        renderCell(id, next);
+        writeState(id, next);
+        persist();
+      });
+      td.appendChild(btn);
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+
+  function renderCell(id, state) {
+    const { btn, comp, style } = cells[id];
+    btn.dataset.state = state;
+    btn.textContent = GLYPH[state];
+    btn.setAttribute("aria-label", comp + " / " + style + ": " + STATE_LABEL[state]);
+  }
+  function writeState(id, state) {
+    if (state === 0) delete saved[id]; else saved[id] = state;
+  }
+
+  // Clear all asks for a confirming second tap, since a wipe can't be undone with a cell tap.
+  const clearBtn = document.getElementById("clear");
+  let armTimer = null;
+  function disarmClear() {
+    clearTimeout(armTimer);
+    clearBtn.classList.remove("armed");
+    clearBtn.textContent = "Clear all";
+    clearBtn.dataset.armed = "";
+  }
+  clearBtn.addEventListener("click", () => {
+    if (clearBtn.dataset.armed === "1") {
+      disarmClear();
+      saved = {};
+      Object.keys(cells).forEach(id => renderCell(id, 0));
+      persist();
+      return;
+    }
+    if (Object.keys(saved).length === 0) return;      // nothing to clear
+    clearBtn.dataset.armed = "1";
+    clearBtn.classList.add("armed");
+    clearBtn.textContent = "Tap again to clear";
+    armTimer = setTimeout(disarmClear, 3500);
+  });
+</script>
+</body>
+</html>
